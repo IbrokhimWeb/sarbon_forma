@@ -125,10 +125,10 @@ function App() {
     myText += `▪️ Qanday muamosi bor: <b> ${muamo}</b> %0A`;
     myText += `▪️ Qanday kuchli tomini: <b> ${ustunlik}</b> %0A`;
     myText += `▪️ Bizdan nima kutmoqda: <b> ${kutmoqda}</b> %0A`;
-    myText += `▪️ Bizdan nima kutmoqda: <b> ${kutmoqda}</b> %0A`;
+    myText += `▪️ Raqobatchilari: <b> ${raqobatchilari}</b> %0A`;
     myText += `▪️ Foydalanilgan reklama turi: <b> ${reklama_type}</b> %0A`;
     myText += `▪️ Masul shaxs FISH: <b> ${fish}</b> %0A`;
-    myText += `▪️ Masul shaxs raqami: <b> +${phone}</b> %0A`;
+    myText += `▪️ Masul shaxs raqami: <b> ${"+" + phone}</b> %0A`;
 
     const api = new XMLHttpRequest();
     const token = "5411625646:AAExS2kdXEkvmD3LZhtx4hv-lVgeD2Hix8U";
