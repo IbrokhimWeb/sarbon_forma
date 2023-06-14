@@ -1,5 +1,6 @@
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState , forwardRef} from "react";
+import { IMaskInput } from "react-imask";
 
 function App() {
   const [data, setData] = useState({
@@ -10,11 +11,14 @@ function App() {
     muamo: "",
     ustunlik: "",
     kutmoqda: "",
-    raqobatchilari: ""
+    raqobatchilari: "",
+    reklama_type: "",
+    phone: "",
+    fish: ""
   });
-  const { kompanya, turi, tajriba, marketing, muamo, ustunlik, kutmoqda, raqobatchilari } = data;
+  const { kompanya, turi, tajriba, marketing, muamo, ustunlik, kutmoqda, raqobatchilari, phone, fish, reklama_type} = data;
 
-  const inputs = [
+  const inputs = [ 
     {
       id: 1,
       select: false,
@@ -82,8 +86,8 @@ function App() {
     {
       id: 9,
       select: false,
-      value: raqobatchilari,
-      name: "raqobatchilari",
+      value: reklama_type,
+      name: "reklama_type",
       type: "text",
       label: "Reklamaning qaysi turidan foydalangansiz?",
     },
@@ -101,7 +105,9 @@ function App() {
     myText += `📧 Qanday kuchli tomini: <b> ${ustunlik}</b> %0A`;
     myText += `📧 Bizdan nima kutmoqda: <b> ${kutmoqda}</b> %0A`;
     myText += `📧 Bizdan nima kutmoqda: <b> ${kutmoqda}</b> %0A`;
-    myText += `📧 Kompanya raqobatchilari: <b> ${raqobatchilari}</b> %0A`;
+    myText += `📧 Foydalanilgan reklama turi: <b> ${reklama_type}</b> %0A`;
+    myText += `📧 Masul shaxs FISH: <b> ${fish}</b> %0A`;
+    myText += `📧 Masul shaxs raqami: <b> +${phone}</b> %0A`;
 
 
     let api = new XMLHttpRequest();
@@ -161,16 +167,20 @@ function App() {
             required
             fullWidth
             label="FISH"
-            onChange={(e) => setData((prev) => ({ ...prev, test: e.target.value }))}
+            onChange={(e) => setData((prev) => ({ ...prev, fish: e.target.value }))}
           />
         </Box>
         <Box key={17623} className="flex items-center gap-3">
-          <h1 className="w-12 font-medium text-xl text-right">11</h1>9
+          <h1 className="w-12 font-medium text-xl text-right">11</h1>
           <TextField
             required
             fullWidth
+            value={phone}
+            InputProps={{
+              inputComponent: TextMaskCustom as any
+            }}
             label="Telefon raqami"
-            onChange={(e) => setData((prev) => ({ ...prev, test: e.target.value }))}
+            onChange={(e) => setData((prev) => ({ ...prev, phone: e.target.value }))}
           />
         </Box>
         <Box className="w-full flex items-center justify-end">
@@ -182,4 +192,27 @@ function App() {
 }
 
 export default App;
+
+interface CustomProps {
+    onChange: (event: { target: { name: string; value: string } }) => void;
+    name: string;
+  }
+
+export const TextMaskCustom = forwardRef<HTMLElement, CustomProps>(
+    function TextMaskCustom(props, ref) {
+      const { onChange, ...other } = props;
+      return (
+        <IMaskInput
+          {...other}
+          mask="+000(00) 000-00-00"
+          definitions={{
+            '#': /[1-9]/,
+          }}
+          inputRef={ref}
+          onAccept={(value: any) => onChange({ target: { name: props.name, value } })}
+          overwrite
+        />
+      );
+    },
+  );
 
